@@ -12,6 +12,7 @@ do
     else
        IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId, PublicIpAddress]')
     fi
+    echo "$instance ip address: $IP"
 done
     
 
