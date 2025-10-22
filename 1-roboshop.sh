@@ -8,9 +8,9 @@ do
   INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-type t2.micro --security-groups sg-01fb8f67c6dc9cd19 --output text) 
     if [ $instance != frontend ]
      then
-      IP=$(aws ec2 describe-instances --instances_ids $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
+      IP=$(aws ec2 describe-instances $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
     else
-       IP=$(aws ec2 describe-instances --instances_ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+       IP=$(aws ec2 describe-instances $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
     fi
     echo "$instance ip address: $IP"
 done
