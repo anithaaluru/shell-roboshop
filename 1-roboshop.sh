@@ -3,7 +3,7 @@ AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-01fb8f67c6dc9cd19"
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping"  "payment" "dispatch" "frontend")
 
-for instance in {$INSTANCES[@]}
+for instance in "{$INSTANCES[@]}"
 do
   INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-type t2.micro --security-groups sg-01fb8f67c6dc9cd19 --output text) 
     if [ $instance != "frontend" ]
