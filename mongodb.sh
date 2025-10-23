@@ -10,7 +10,7 @@ LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
 mkdir -p $LOG_FOLDER
 echo "script executed at: $(date)" | tee -a $LOG_FILE
 
-if ( $USER_ID -ne 0)
+if ( $USER_ID -ne 0 )
  then
   echo -e "$R ERROR::please run this script with root  access $N" | tee -a $LOG_FILE
   exit 1
@@ -19,7 +19,7 @@ if ( $USER_ID -ne 0)
 fi
   
   VALIDATE(){
-   if ( $1 -ne 0)
+   if ( $1 -ne 0 )
     then
      echo "$2 is......$R failure $N" | tee -a $LOG_FILE
      exit 1
