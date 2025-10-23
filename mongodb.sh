@@ -22,6 +22,7 @@ fi
    if [ $1 -ne 0 ]
     then
      echo -e "$2 is...... $R failure $N" | tee -a $LOG_FILE
+     exit 1
    else
      echo -e "$2 is.... $G success $N" | tee -a $LOG_FILE
    fi
