@@ -2,6 +2,8 @@
 AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-01fb8f67c6dc9cd19" # replace with your SG ID
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
+ZONE_ID="Z07925432MZBBX10SNL09"
+DOMAIN_NAME="daws.site
 
 for instance in ${INSTANCES[@]}
 #for instance in $@
