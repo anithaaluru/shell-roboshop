@@ -37,7 +37,7 @@ dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installing nodejs"
 
 id roboshop
- if [ $? -ne 0 ]
+ if [ $? -eq 0 ]
  then
   echo "useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop | tee -a $LOG_FILE
    VALIDATE $? "creating roboshop system user"
@@ -75,5 +75,3 @@ VALIDATE $? "installing mongodb"
 
 mongosh --host mongodb.daws.site </app/db/master-data.js &>>$LOG_FILE
 VALIDATE $? "loading the data in mongodb"
-
-
