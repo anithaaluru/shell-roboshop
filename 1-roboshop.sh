@@ -22,7 +22,7 @@ do
       --change-batch '{ "Comment": "creating or updating a record set", 
       "Changes": [ { "Action": "UPSERT", "ResourceRecordSet": { "$NAME":"$instance" 
       "$(TARGET_ENVIRONMENT).$DOMAIN_NAME", "Type": "A", "TTL": 
-      1 "ResourceRecords": [ { "Value":"$IP" "$(BASE_ENVIRONMENT_DNS)" } ] } } ] }'
+      1 "ResourceRecords": [ { "Value":$IP "$(BASE_ENVIRONMENT_DNS)" } ] } } ] }'
 done
     
 
