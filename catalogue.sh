@@ -1,0 +1,79 @@
+#!/bin/bash
+USER_ID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
+LOGS_FOLDER="/var/log/roboshop.log"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
+mkdir -p $LOGS_FOLDER
+echo -e "$R this script executed at: $(date) $N" | tee -a $LOG_FILE
+SCRIPT_DIR="$pwd"
+
+if [ $USER_ID -ne 0 ]
+ then
+   echo -e "$R ERROR::please run this script using root access $N" | tee -a $LOG_FILE
+ else
+   echo -e "$Y you are running this script with root access $N" | tee -a $LOG_FILE
+fi
+
+VALIDATE(){
+    if [ $1 -eq 0 ]
+    then
+     echo -e "$2 is....$G success $N" | tee -a $LOG_FILE
+    else
+     echo -e "$2 is....$R failure $N" | tee -a $LOG_FILE
+    fi
+}
+
+dnf module disable nodejs -y
+VALIDATE $? "disabling nodejs"
+
+dnf module enable nodejs:20 -y
+VALIDATE $? "enabling nodejs"
+
+dnf install nodejs -y
+VALIDATE $? "installing nodejs"
+
+id roboshop
+ if [ $id -ne 0 ]
+ then
+  echo "useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+   VALIDATE $? "creating roboshop system user"
+ else
+   echo "user is already created"
+ fi
+
+mkdir /app 
+VALIDATE $? "creating app directory"
+
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+VALIDATE $? "downloading catalogue"
+
+rm -rf /app/*
+cd /app 
+unzip /tmp/catalogue.zip
+VALIDATE $? "unzipping the catalogue"
+
+npm install 
+VALIDATE $? "installing dependencies"
+
+cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
+VALIDATE $? "copying the catalogue service"
+
+systemctl daemon-reload
+systemctl enable catalogue 
+systemctl start catalogue
+VALIDATE $? "starting the catalogue"
+
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
+VALIDATE $? "copying the mongodb repo"
+
+dnf install mongodb-mongosh -y
+VALIDATE $? "installing mongodb"
+
+mongosh --host mongodb.daws.site </app/db/master-data.js
+VALIDATE $? "loading the data in mongodb"
+
+
