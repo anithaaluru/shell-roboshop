@@ -39,16 +39,16 @@ VALIDATE $? "installing nodejs"
 id roboshop
  if [ $? -eq 0 ]
  then
-  echo "useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop | tee -a $LOG_FILE
+   useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
    VALIDATE $? "creating roboshop system user"
  else
-   echo "user is already created" | tee -a $LOG_FILE
+   echo -e "$G user is already created $N" 
  fi
 
 mkdir /app 
 VALIDATE $? "creating app directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
 VALIDATE $? "downloading catalogue"
 
 rm -rf /app/*
