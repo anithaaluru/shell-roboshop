@@ -73,7 +73,7 @@ VALIDATE $? "copying the mongodb repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "installing mongodb"
 
-STATUS=$(mongo localhost:mongodb.daws.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+STATUS=$(mongosh --host mongodb.daws.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
  if [ $STATUS -lt 0 ]
  then
    mongosh --host mongodb.daws.site </app/db/master-data.js &>>$LOG_FILE
@@ -81,4 +81,3 @@ STATUS=$(mongo localhost:mongodb.daws.site --eval 'db.getMongo().getDBNames().in
  else
    echo -e "$G data is already loaded $N"
  fi
-    
