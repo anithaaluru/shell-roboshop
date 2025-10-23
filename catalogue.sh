@@ -74,7 +74,7 @@ dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "installing mongodb"
 
 STATUS=$(mongosh --host mongodb.daws.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
- if [ "$STATUS" -eq 1 ]
+ if [ $STATUS -eq 0 ]
  then
    mongosh --host mongodb.daws.site </app/db/master-data.js &>>$LOG_FILE
    VALIDATE $? "loading the data in mongodb"
