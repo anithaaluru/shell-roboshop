@@ -22,13 +22,12 @@ fi
    if [ $1 -ne 0 ]
     then
      echo -e "$2 is...... $R failure $N" | tee -a $LOG_FILE
-     exit 1
    else
      echo -e "$2 is.... $G success $N" | tee -a $LOG_FILE
    fi
   }
 
-  cp mongo.repo /etc/yum.repos.d/mongo.repo 
+  cp mongo.repo /etc/yum.repos.d/mongodb.repo 
   VALIDATE $? "copying MongoDB repo"
 
   dnf install mongodb-org -y &>>$LOG_FILE
