@@ -27,22 +27,22 @@ VALIDATE(){
     fi
 }
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>>$LOG_FILE
 VALIDATE $? "disabling nodejs"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>>$LOG_FILE
 VALIDATE $? "enabling nodejs"
 
-dnf install nodejs -y
+dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installing nodejs"
 
 id roboshop
  if [ $id -ne 0 ]
  then
-  echo "useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+  echo "useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop | tee -a $LOG_FILE
    VALIDATE $? "creating roboshop system user"
  else
-   echo "user is already created"
+   echo "user is already created" | tee -a $LOG_FILE
  fi
 
 mkdir /app 
@@ -53,27 +53,27 @@ VALIDATE $? "downloading catalogue"
 
 rm -rf /app/*
 cd /app 
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>>$LOG_FILE
 VALIDATE $? "unzipping the catalogue"
 
-npm install 
+npm install &>>$LOG_FILE
 VALIDATE $? "installing dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "copying the catalogue service"
 
-systemctl daemon-reload
-systemctl enable catalogue 
-systemctl start catalogue
+systemctl daemon-reload &>>$LOG_FILE
+systemctl enable catalogue  &>>$LOG_FILE
+systemctl start catalogue &>>$LOG_FILE
 VALIDATE $? "starting the catalogue"
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "copying the mongodb repo"
 
-dnf install mongodb-mongosh -y
+dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "installing mongodb"
 
-mongosh --host mongodb.daws.site </app/db/master-data.js
+mongosh --host mongodb.daws.site </app/db/master-data.js &>>$LOG_FILE
 VALIDATE $? "loading the data in mongodb"
 
 
