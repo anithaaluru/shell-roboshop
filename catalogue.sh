@@ -9,7 +9,7 @@ SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 mkdir -p $LOGS_FOLDER
 echo -e "$R this script executed at: $(date) $N" | tee -a $LOG_FILE
-SCRIPT_DIR="$pwd"
+SCRIPT_DIR=$PWD
 
 if [ $USER_ID -ne 0 ]
  then
@@ -36,8 +36,8 @@ VALIDATE $? "enabling nodejs"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installing nodejs"
 
-id roboshop
- if [ $? -eq 0 ]
+ id roboshop
+ if [ $? -ne 0 ]
  then
    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
    VALIDATE $? "creating roboshop system user"
