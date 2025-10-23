@@ -30,7 +30,7 @@ do
       ,"Type": "A"
       ,"TTL": 1
       ,"ResourceRecords": [ { 
-      "Value":"'$IP'" "$(BASE_ENVIRONMENT_DNS)" 
+      "Value":"'$IP'"  
       } ] 
     } 
 } ] 
