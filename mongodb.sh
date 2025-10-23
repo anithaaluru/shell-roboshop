@@ -31,14 +31,17 @@ fi
   VALIDATE $? "copying mongodb repo"
 
   dnf install mongodb-org -y &>>$LOG_FILE
-  VALIDATE $? "installing mongodb server"
+  VALIDATE $? "Installing mongodb server"
 
   systemctl enable mongod &>>$LOG_FILE
-  systemctl start mongod  &>>$LOG_FILE
-  VALIDATE $? "starting mongodb"
+  VALIDATE $? "Enabling MongoDB"
 
-  sed -i 's/127.0.0.1/0.0.0.0' /etc/mongod.conf
-  VALIDATE $? "editing mongodb conf file for remote connections"
+  systemctl start mongod &>>$LOG_FILE
+  VALIDATE $? "Starting MongoDB"
+
+  sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+  VALIDATE $? "Editing MongoDB conf file for remote connections"
 
   systemctl restart mongod &>>$LOG_FILE
-  VALIDATE $? "restarting mongodb"
+  VALIDATE $? "Restarting MongoDB"
+
