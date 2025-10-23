@@ -22,7 +22,6 @@ fi
    if [ $1 -ne 0 ]
     then
      echo "$2 is...... $R failure $N" | tee -a $LOG_FILE
-     exit 1
    else
      echo "$2 is.... $G success $N" | tee -a $LOG_FILE
    fi
@@ -32,7 +31,7 @@ fi
   VALIDATE $? "copying mongodb repo"
 
   dnf install mongodb-org -y &>>$LOG_FILE
-  VALIDATE $? "installing mongodb"
+  VALIDATE $? "installing mongodb server"
 
   systemctl enable mongod &>>$LOG_FILE
   systemctl start mongod  &>>$LOG_FILE
