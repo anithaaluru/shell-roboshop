@@ -45,7 +45,7 @@ VALIDATE $? "installing nodejs"
    echo -e "$G user is already created $N" 
  fi
 
-mkdir /app 
+mkdir -p /app 
 VALIDATE $? "creating app directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
@@ -73,5 +73,12 @@ VALIDATE $? "copying the mongodb repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "installing mongodb"
 
-mongosh --host mongodb.daws.site </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "loading the data in mongodb"
+STATUS=$(mongo localhost:mongodb.daws.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+ if [ $STATUS -lt 0 ]
+ then
+   mongosh --host mongodb.daws.site </app/db/master-data.js &>>$LOG_FILE
+   VALIDATE $? "loading the data in mongodb"
+ else
+   echo -e "$G data is already loaded $N"
+ fi
+    
