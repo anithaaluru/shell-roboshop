@@ -26,7 +26,7 @@ do
       ,"Changes": [ { 
       "Action": "UPSERT" 
       ,"ResourceRecordSet": { 
-      "$NAME":"'$instance'.'$DOMAIN_NAME'" 
+      "NAME":"'$instance'.'$DOMAIN_NAME'" 
       ,"Type": "A"
       ,"TTL": 1
       ,"ResourceRecords": [ { 
