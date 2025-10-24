@@ -1,5 +1,5 @@
 #!/bin/bash
-$USER_ID=$(id -u)
+USER_ID=$(id -u)
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -27,7 +27,7 @@ VALIDATE(){
     fi
 }
 
-dnf module disable nginx -y
+dnf module disable nginx -y &>>$LOG_FILE
 VALIDATE $? "disabling nginx"
 
 dnf module enable nginx:1.24 -y &>>$LOG_FILE
