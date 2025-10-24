@@ -21,9 +21,9 @@ fi
 VALIDATE(){
     if [ $1 -eq 0 ]
     then
-    echo "$G $2..is success $N" | tee -a $LOG_FILE
+    echo -e "$G $2..is success $N" | tee -a $LOG_FILE
     else 
-    echo "$R $2..is failure $N" | tee -a $LOG_FILE
+    echo -e "$R $2..is failure $N" | tee -a $LOG_FILE
     fi
 }
 
@@ -37,7 +37,7 @@ dnf install nginx -y  &>>$LOG_FILE
 VALIDATE $? "installing nginx"
 
 systemctl enable nginx  &>>$LOG_FILE
-systemctl start nginx   &>>$LOG_FILE
+systemctl start nginx   
 VALIDATE $? "starting the nginx"
 
 rm -rf /usr/share/nginx/html/*   &>>$LOG_FILE
