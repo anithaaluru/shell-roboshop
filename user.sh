@@ -47,7 +47,7 @@ else
   echo -e "$G user is already created $N"  &>>$LOG_FILE
 fi
 
-mkdir /app 
+mkdir -p /app 
 VALIDATE $? "app folder is created"
 
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip  &>>$LOG_FILE
