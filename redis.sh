@@ -37,7 +37,7 @@ fi
  dnf install redis -y  &>>$LOG_FILE
  VALIDATE $? "installing redis"
 
- sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf    
+ sed -i  's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf    
  VALIDATE $? "editing the redis conf"
 
  systemctl enable redis &>>$LOG_FILE
@@ -47,5 +47,6 @@ fi
  VALIDATE $? "starting the redis"
 
  END_TIME=$(date +%s)
+ TOTAL_TIME=$(( $END_TIME - $START_TIME))
 
- script executed total time=$(( $END_TIME - $START_TIME )) | tee -a $LOG_FILE
+ echo -e "script executed total time=$TOTAL_TIME" | tee -a $LOG_FILE
