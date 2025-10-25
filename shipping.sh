@@ -31,7 +31,7 @@ fi
   }
 
  dnf install maven -y &>>LOG_FILE
- VALIDATE ? "installing maven"
+ VALIDATE $? "installing maven"
  id roboshop &>>LOG_FILE
   if [ $? -ne 0 ] 
    then
