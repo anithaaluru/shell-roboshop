@@ -33,12 +33,12 @@ fi
  dnf install maven -y &>>LOG_FILE
  VALIDATE ? "installing maven"
  id roboshop &>>LOG_FILE
- if[ $? -ne 0 ] 
- then
- useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>LOG_FILE
- VALIDATE $? "creating user"
- else
- echo "user is already created" | tee -a $LOG_FILE
+  if [ $? -ne 0 ] 
+   then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>LOG_FILE
+    VALIDATE $? "creating user"
+   else
+     echo "user is already created" | tee -a $LOG_FILE
  fi
  mkdir -p /app 
  VALIDATE $? "creating app folder"
