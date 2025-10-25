@@ -18,6 +18,8 @@ if [ $USER_ID -ne 0 ]
  else
   echo -e "$Y you are running this script with root access $N" | tee -a $LOG_FILE
 fi
+  echo "please enter the root password"
+  read -s "MYSQL_ROOT_PASSWORD"
   
   VALIDATE(){
    if [ $1 -ne 0 ]
@@ -59,9 +61,9 @@ fi
  VALIDATE $? "starting shipping"
  dnf install mysql -y  &>>LOG_FILE
  VALIDATE $? "installing mysql"
- mysql -h mysql.daws.site -uroot -pRoboShop@1 < /app/db/schema.sql &>>LOG_FILE
- mysql -h mysql.daws.site -uroot -pRoboShop@1 < /app/db/app-user.sql &>>LOG_FILE
- mysql -h mysql.daws.site -uroot -pRoboShop@1 < /app/db/master-data.sql &>>LOG_FILE
+ mysql -h mysql.daws.site -uroot -MYSQL_ROOT_PASSWORD < /app/db/schema.sql &>>LOG_FILE
+ mysql -h mysql.daws.site -uroot -MYSQL_ROOT_PASSWORD < /app/db/app-user.sql &>>LOG_FILE
+ mysql -h mysql.daws.site -uroot -MYSQL_ROOT_PASSWORD < /app/db/master-data.sql &>>LOG_FILE
  VALIDATE $? "loading data into mysql"
  systemctl restart shipping &>>LOG_FILE
  VALIDATE $? "restarting shipping"
