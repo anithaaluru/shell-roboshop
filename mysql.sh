@@ -29,10 +29,10 @@ fi
      echo -e "$2 is.... $G success $N" | tee -a $LOG_FILE
    fi
   }
-  dnf install mysql-server -y
+  dnf install mysql-server -y &>>LOG_FILE
   VALIDATE $? "installing mysql"
   systemctl enable mysqld
   systemctl start mysqld  
-  VALIDATE $? "starting mysql"
+  VALIDATE $? "starting mysql" &>>LOG_FILE
   mysql_secure_installation --set-root-pass $MYSQL_ROOT_PASSWORD
   VALIDATE $? "setting root password"
