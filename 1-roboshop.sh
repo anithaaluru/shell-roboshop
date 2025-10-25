@@ -2,8 +2,8 @@
 AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-01fb8f67c6dc9cd19" # replace with your SG ID
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
-# ZONE_ID="Z07925432MZBBX10SNL09"
-# DOMAIN_NAME="daws.site"
+ZONE_ID="Z07925432MZBBX10SNL09"
+DOMAIN_NAME="daws.site"
 
 for instance in ${INSTANCES[@]}
 #for instance in $@
@@ -18,23 +18,23 @@ do
     echo "$instance IP address: $IP"
 
 
-#     aws route53 change-resource-record-sets \
-#      --hosted-zone-id "$ZONE_ID" \
-#      --change-batch '
-#     { 
-#       "Comment": "creating or updating a record set"
-#       ,"Changes": [ { 
-#       "Action"            : "UPSERT" 
-#       ,"ResourceRecordSet": { 
-#       "Name"              : "'$instance'.'$DOMAIN_NAME'" 
-#       ,"Type"             : "A"
-#       ,"TTL"              : 1
-#       ,"ResourceRecords"  : [{ 
-#       "Value"             : "'$IP'"  
-#       } ] 
-#     } 
-# } ] 
-# }'
+    aws route53 change-resource-record-sets \
+     --hosted-zone-id "$ZONE_ID" \
+     --change-batch '
+    { 
+      "Comment": "creating or updating a record set"
+      ,"Changes": [ { 
+      "Action"            : "UPSERT" 
+      ,"ResourceRecordSet": { 
+      "Name"              : "'$instance'.'$DOMAIN_NAME'" 
+      ,"Type"             : "A"
+      ,"TTL"              : 1
+      ,"ResourceRecords"  : [{ 
+      "Value"             : "'$IP'"  
+      } ] 
+    } 
+} ] 
+}'
 done
     
 
