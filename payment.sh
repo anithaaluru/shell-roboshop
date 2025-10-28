@@ -41,7 +41,7 @@ id roboshop
 mkdir -p /app
 VALIDATE $? "app folder is creating"
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>>LOG_FILE
-VALIDATE $? "unzipping the content"
+VALIDATE $? "downloading the content"
 rm -rf /app/*
 cd /app
 unzip /tmp/payment.zip &>>LOG_FILE
